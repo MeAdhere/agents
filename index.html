@@ -3,25 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>信贷核心智能体 | 神经中枢·小核通</title>
-    <!-- Google Font & Font Awesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <title>信贷核心智能体系统 · 小核通</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             background: #03050b;
             overflow-x: hidden;
             color: #f0f9ff;
         }
-
-        /* 动态粒子画布背景 */
         #particle-canvas {
             position: fixed;
             top: 0;
@@ -30,10 +22,8 @@
             height: 100%;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.5;
+            opacity: 0.4;
         }
-
-        /* 主容器 */
         .app-container {
             position: relative;
             z-index: 2;
@@ -41,74 +31,142 @@
             margin: 0 auto;
             padding: 1.5rem 2rem 3rem;
         }
-
-        /* 头部科幻感 */
-        .hero {
-            text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
+        /* ----- 品牌卡片 (嵌入图片内容) ----- */
+        .brand-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(6, 18, 38, 0.8);
+            backdrop-filter: blur(16px);
+            border-radius: 2rem;
+            padding: 0.8rem 2rem 0.8rem 2.2rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(0, 180, 255, 0.4);
+            box-shadow: 0 0 20px rgba(0, 180, 255, 0.1);
+            flex-wrap: wrap;
+            gap: 1rem;
         }
+        .brand-left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .brand-icon {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #3bc9ff, #a55cff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+        .brand-title {
+            font-size: 1.7rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #7ad0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .brand-sub {
+            font-size: 0.75rem;
+            color: #aacbff;
+            opacity: 0.9;
+        }
+        .brand-company {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #b0d4ff;
+            border-left: 2px solid #0af;
+            padding-left: 1.2rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .brand-company small {
+            font-weight: 300;
+            opacity: 0.7;
+            font-size: 0.7rem;
+        }
+        .brand-qr {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: rgba(0, 20, 40, 0.5);
+            padding: 0.2rem 0.8rem 0.2rem 0.5rem;
+            border-radius: 2rem;
+            border: 1px solid #2a6a8f;
+        }
+        .qr-placeholder {
+            width: 52px;
+            height: 52px;
+            background: #0a1a2e;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #3b9bd6;
+            position: relative;
+            overflow: hidden;
+        }
+        .qr-placeholder canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        .qr-label {
+            font-size: 0.6rem;
+            color: #aad0ff;
+            line-height: 1.3;
+            max-width: 90px;
+        }
+        .qr-label i {
+            color: #0af;
+            margin-right: 3px;
+        }
+        @media (max-width: 760px) {
+            .brand-card { flex-direction: column; align-items: stretch; padding: 1rem; }
+            .brand-left { flex-wrap: wrap; }
+            .brand-company { border-left: none; padding-left: 0; }
+        }
+
+        /* 其他样式不变 (保留原有酷炫元素) */
+        .hero { text-align: center; margin-bottom: 1.5rem; }
         .glow-text {
-            font-size: 3.5rem;
+            font-size: 3.2rem;
             font-weight: 800;
             background: linear-gradient(135deg, #ffffff, #64dcff, #a55cff);
-            background-clip: text;
             -webkit-background-clip: text;
-            color: transparent;
-            letter-spacing: -0.02em;
-            filter: drop-shadow(0 0 15px rgba(100, 220, 255, 0.3));
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(100,220,255,0.3));
         }
         .arch-badge {
             display: inline-flex;
             gap: 1rem;
-            background: rgba(10, 20, 45, 0.6);
+            background: rgba(10,20,45,0.6);
             backdrop-filter: blur(12px);
             padding: 0.5rem 1.5rem;
             border-radius: 60px;
-            margin-top: 1rem;
-            border: 1px solid rgba(0, 200, 255, 0.4);
+            margin-top: 0.8rem;
+            border: 1px solid rgba(0,200,255,0.4);
         }
-        .arch-badge span {
-            font-weight: 600;
-            font-size: 1rem;
-        }
-        .arch-badge i {
-            color: #0af;
-        }
+        .arch-badge span { font-weight: 600; font-size: 0.9rem; }
+        .arch-badge i { color: #0af; }
 
-        /* 双列布局: 左侧卡片区 + 右侧智能终端 */
-        .dashboard {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-        .agents-panel {
-            flex: 2;
-            min-width: 260px;
-        }
-        .terminal-panel {
-            flex: 1.2;
-            min-width: 320px;
-            position: sticky;
-            top: 1.5rem;
-            align-self: flex-start;
-        }
+        .dashboard { display: flex; gap: 2rem; flex-wrap: wrap; }
+        .agents-panel { flex: 2; min-width: 260px; }
+        .terminal-panel { flex: 1.2; min-width: 320px; position: sticky; top: 1.5rem; align-self: flex-start; }
 
-        /* 卡片网格 */
         .grid-cards {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
-        /* 3D 卡片特效 */
         .agent-card {
-            background: rgba(8, 18, 32, 0.6);
+            background: rgba(8,18,32,0.6);
             backdrop-filter: blur(12px);
             border-radius: 2rem;
-            border: 1px solid rgba(0, 180, 255, 0.3);
+            border: 1px solid rgba(0,180,255,0.3);
             padding: 1.2rem;
-            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            transition: all 0.4s cubic-bezier(0.2,0.9,0.4,1.1);
             cursor: pointer;
             position: relative;
             overflow: hidden;
@@ -118,75 +176,29 @@
         .agent-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 200, 255, 0.2), transparent);
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0,200,255,0.2), transparent);
             transition: left 0.6s;
             z-index: 0;
         }
-        .agent-card:hover::before {
-            left: 100%;
-        }
+        .agent-card:hover::before { left: 100%; }
         .agent-card:hover {
             transform: translateY(-8px) scale(1.02);
             border-color: #3ce0ff;
-            box-shadow: 0 20px 35px -8px rgba(0, 200, 255, 0.3);
-            background: rgba(12, 28, 48, 0.8);
+            box-shadow: 0 20px 35px -8px rgba(0,200,255,0.3);
+            background: rgba(12,28,48,0.8);
         }
-        .card-icon {
-            font-size: 2.3rem;
-            color: #0af;
-            margin-bottom: 0.8rem;
-            display: inline-block;
-            text-shadow: 0 0 5px #0af;
-        }
-        .agent-card h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.4rem;
-            letter-spacing: -0.3px;
-        }
-        .agent-desc {
-            font-size: 0.8rem;
-            color: #b8dcff;
-            margin: 0.5rem 0 0.8rem;
-            line-height: 1.4;
-        }
-        .feature-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin: 0.8rem 0;
-        }
-        .tag {
-            background: rgba(0, 160, 255, 0.2);
-            border-radius: 20px;
-            padding: 0.2rem 0.6rem;
-            font-size: 0.7rem;
-            font-weight: 500;
-            border: 1px solid rgba(0, 200, 255, 0.4);
-        }
-        .cmd-sample {
-            background: #02122880;
-            border-radius: 1rem;
-            padding: 0.5rem;
-            margin: 0.6rem 0;
-            font-family: 'Monaco', monospace;
-            font-size: 0.7rem;
-            border-left: 3px solid #0af;
-            color: #cae9ff;
-        }
-        .interact-buttons {
-            display: flex;
-            gap: 0.6rem;
-            margin-top: 0.8rem;
-            flex-wrap: wrap;
-        }
+        .card-icon { font-size: 2.3rem; color: #0af; margin-bottom: 0.8rem; display: inline-block; text-shadow: 0 0 5px #0af; }
+        .agent-card h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.4rem; letter-spacing: -0.3px; }
+        .agent-desc { font-size: 0.8rem; color: #b8dcff; margin: 0.5rem 0 0.8rem; line-height: 1.4; }
+        .feature-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.8rem 0; }
+        .tag { background: rgba(0,160,255,0.2); border-radius: 20px; padding: 0.2rem 0.6rem; font-size: 0.7rem; font-weight: 500; border: 1px solid rgba(0,200,255,0.4); }
+        .cmd-sample { background: #02122880; border-radius: 1rem; padding: 0.5rem; margin: 0.6rem 0; font-family: 'Monaco', monospace; font-size: 0.7rem; border-left: 3px solid #0af; color: #cae9ff; }
+        .interact-buttons { display: flex; gap: 0.6rem; margin-top: 0.8rem; flex-wrap: wrap; }
         .cmd-btn {
-            background: rgba(0, 170, 255, 0.15);
-            border: 1px solid rgba(0, 170, 255, 0.5);
+            background: rgba(0,170,255,0.15);
+            border: 1px solid rgba(0,170,255,0.5);
             border-radius: 2rem;
             padding: 0.3rem 0.9rem;
             font-size: 0.7rem;
@@ -198,9 +210,6 @@
             align-items: center;
             gap: 5px;
         }
-        .cmd-btn i {
-            font-size: 0.7rem;
-        }
         .cmd-btn:hover {
             background: #0af;
             color: #010b16;
@@ -208,61 +217,38 @@
             box-shadow: 0 0 12px rgba(0,170,255,0.6);
             transform: scale(1.02);
         }
+        .batch-card { grid-column: span 2; background: linear-gradient(135deg, #0b142bb3, #02122cb3); border: 1px solid #2f6eb3; }
 
-        /* 大批小助手专用宽卡片 */
-        .batch-card {
-            grid-column: span 2;
-            background: linear-gradient(135deg, #0b142bb3, #02122cb3);
-            border: 1px solid #2f6eb3;
-        }
-
-        /* 右侧智能终端 (全息对话屏) */
         .holo-terminal {
-            background: rgba(2, 10, 22, 0.75);
+            background: rgba(2,10,22,0.75);
             backdrop-filter: blur(16px);
             border-radius: 2rem;
-            border: 1px solid rgba(0, 200, 255, 0.5);
+            border: 1px solid rgba(0,200,255,0.5);
             overflow: hidden;
-            box-shadow: 0 0 20px rgba(0, 180, 255, 0.2);
-            transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(0,180,255,0.2);
         }
         .terminal-header {
             padding: 1rem 1.2rem;
-            background: rgba(0, 30, 50, 0.6);
+            background: rgba(0,30,50,0.6);
             border-bottom: 1px solid #0af;
             display: flex;
             align-items: center;
             gap: 10px;
             font-weight: 700;
         }
-        .terminal-header i {
-            font-size: 1.3rem;
-            color: #0af;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { text-shadow: 0 0 0px #0af; }
-            100% { text-shadow: 0 0 8px #0af; }
-        }
+        .terminal-header i { font-size: 1.3rem; color: #0af; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { text-shadow: 0 0 0px #0af; } 100% { text-shadow: 0 0 8px #0af; } }
         .chat-messages {
-            height: 460px;
+            height: 420px;
             overflow-y: auto;
             padding: 1rem;
             display: flex;
             flex-direction: column;
             gap: 1rem;
         }
-        .message {
-            display: flex;
-            flex-direction: column;
-            animation: fadeSlideUp 0.25s ease;
-        }
-        .message.user {
-            align-items: flex-end;
-        }
-        .message.bot {
-            align-items: flex-start;
-        }
+        .message { display: flex; flex-direction: column; animation: fadeSlideUp 0.25s ease; }
+        .message.user { align-items: flex-end; }
+        .message.bot { align-items: flex-start; }
         .msg-bubble {
             max-width: 90%;
             padding: 0.7rem 1rem;
@@ -271,103 +257,75 @@
             line-height: 1.45;
             word-break: break-word;
         }
-        .user .msg-bubble {
-            background: linear-gradient(135deg, #0a5f8a, #0a3d5e);
-            color: white;
-            border-bottom-right-radius: 0.2rem;
-            border: 1px solid #3aa9ff;
-        }
-        .bot .msg-bubble {
-            background: rgba(18, 35, 55, 0.9);
-            border: 1px solid #2c6c9e;
-            border-bottom-left-radius: 0.2rem;
-            color: #e2f0ff;
-        }
-        .msg-time {
-            font-size: 0.6rem;
-            opacity: 0.6;
-            margin: 0.2rem 0.5rem;
-        }
-        .terminal-footer {
-            padding: 0.8rem;
-            border-top: 1px solid #1f4b6e;
-            background: #030e1a80;
-            font-size: 0.7rem;
-            text-align: center;
-        }
-        .clear-btn {
-            background: none;
-            border: none;
-            color: #7aadff;
-            cursor: pointer;
-            font-size: 0.7rem;
-            margin-left: 1rem;
-        }
-        .clear-btn:hover {
-            color: #0af;
-        }
-
-        /* 滚动条 */
-        .chat-messages::-webkit-scrollbar {
-            width: 4px;
-        }
-        .chat-messages::-webkit-scrollbar-track {
-            background: #021026;
-        }
-        .chat-messages::-webkit-scrollbar-thumb {
-            background: #0af;
-            border-radius: 8px;
-        }
+        .user .msg-bubble { background: linear-gradient(135deg, #0a5f8a, #0a3d5e); color: white; border-bottom-right-radius: 0.2rem; border: 1px solid #3aa9ff; }
+        .bot .msg-bubble { background: rgba(18,35,55,0.9); border: 1px solid #2c6c9e; border-bottom-left-radius: 0.2rem; color: #e2f0ff; }
+        .msg-time { font-size: 0.6rem; opacity: 0.6; margin: 0.2rem 0.5rem; }
+        .terminal-footer { padding: 0.8rem; border-top: 1px solid #1f4b6e; background: #030e1a80; font-size: 0.7rem; text-align: center; }
+        .clear-btn { background: none; border: none; color: #7aadff; cursor: pointer; font-size: 0.7rem; margin-left: 1rem; }
+        .clear-btn:hover { color: #0af; }
+        .chat-messages::-webkit-scrollbar { width: 4px; }
+        .chat-messages::-webkit-scrollbar-track { background: #021026; }
+        .chat-messages::-webkit-scrollbar-thumb { background: #0af; border-radius: 8px; }
 
         @media (max-width: 980px) {
-            .dashboard {
-                flex-direction: column;
-            }
-            .terminal-panel {
-                position: static;
-                margin-top: 1.5rem;
-            }
-            .batch-card {
-                grid-column: span 1;
-            }
+            .dashboard { flex-direction: column; }
+            .terminal-panel { position: static; margin-top: 1.5rem; }
+            .batch-card { grid-column: span 1; }
         }
-        footer {
-            margin-top: 3rem;
-            text-align: center;
-            font-size: 0.7rem;
-            opacity: 0.5;
-        }
+        footer { margin-top: 3rem; text-align: center; font-size: 0.7rem; opacity: 0.5; }
     </style>
 </head>
 <body>
 <canvas id="particle-canvas"></canvas>
 
 <div class="app-container">
+    <!-- 品牌卡片：嵌入图片内容 (小核通 + 海尔消费金融 + 二维码占位) -->
+    <div class="brand-card">
+        <div class="brand-left">
+            <span class="brand-icon"><i class="fas fa-atom"></i></span>
+            <div>
+                <div class="brand-title">小核通</div>
+                <div class="brand-sub">信贷核心服务台</div>
+            </div>
+            <div class="brand-company">
+                <span>海尔消费金融有限公司</span>
+                <small><i class="fas fa-lock"></i> 仅限企业内部成员加入</small>
+            </div>
+        </div>
+        <div class="brand-qr">
+            <div class="qr-placeholder" id="qrPlaceholder">
+                <!-- 使用canvas绘制模拟二维码图案（占位） -->
+                <img src="/qun.png" alt="企业微信二维码" style="width:52px; height:52px; border-radius:12px;">
+            </div>
+            <div class="qr-label">
+                <i class="fas fa-qrcode"></i> 扫码加入<br><span style="font-size:0.5rem; opacity:0.6;">永久有效</span>
+            </div>
+        </div>
+    </div>
+
     <div class="hero">
-        <div class="glow-text">⚡ 信贷核心智能体 ⚡</div>
+        <div class="glow-text">⚡ 信贷核心智能体系统 ⚡</div>
         <div class="arch-badge">
             <span><i class="fas fa-microchip"></i> 小核通 · 五大认知域</span>
             <span><i class="fas fa-charging-station"></i> 大批小助手 · 全量跑批引擎</span>
         </div>
-        <p style="margin-top: 1rem; opacity: 0.8;">「核算·清分·支付·跑批」全链路智能决策中枢</p>
+        <p style="margin-top: 0.8rem; opacity: 0.8;">「核算·接口·清分·网关·跑批」全链路智能决策中枢</p>
     </div>
 
     <div class="dashboard">
-        <!-- 左侧 智能体军团 -->
+        <!-- 左侧智能体军团 (不变) -->
         <div class="agents-panel">
             <div class="grid-cards">
-                <!-- 1. 荷包 核算知识库 -->
                 <div class="agent-card" data-agent="荷包">
                     <i class="fas fa-coins card-icon"></i>
                     <h3>荷包 · 核算知识库</h3>
-                    <div class="agent-desc">揽获业务七大板块 · 日切日终/放款还款/退费减免/贴息批扣 · 全类核算</div>
+                    <div class="agent-desc">揽获业务七大板块 · 日切日终/放款还款/退费减免/贴息批扣</div>
                     <div class="feature-tags"><span class="tag">批扣逻辑</span><span class="tag">数据预加载</span><span class="tag">同步处理</span></div>
                     <div class="cmd-sample">📌 "核算批扣逻辑是什么样的"</div>
                     <div class="interact-buttons">
                         <button class="cmd-btn" data-cmd="荷包"><i class="fas fa-comment"></i> 询问核算批扣</button>
                     </div>
                 </div>
-                <!-- 2. 接口查询助手 -->
                 <div class="agent-card" data-agent="接口查询助手">
                     <i class="fas fa-code-branch card-icon"></i>
                     <h3>接口查询助手</h3>
@@ -377,7 +335,6 @@
                         <button class="cmd-btn" data-cmd="接口查询"><i class="fas fa-search"></i> 获取Q100003详情</button>
                     </div>
                 </div>
-                <!-- 3. 清分测试助手 -->
                 <div class="agent-card" data-agent="清分测试助手">
                     <i class="fas fa-handshake card-icon"></i>
                     <h3>清分测试助手</h3>
@@ -387,7 +344,6 @@
                         <button class="cmd-btn" data-cmd="清分"><i class="fas fa-chart-line"></i> 模拟对账查询</button>
                     </div>
                 </div>
-                <!-- 4. 支付网关助手 -->
                 <div class="agent-card" data-agent="支付网关助手">
                     <i class="fas fa-credit-card card-icon"></i>
                     <h3>支付网关助手</h3>
@@ -397,7 +353,6 @@
                         <button class="cmd-btn" data-cmd="支付网关"><i class="fas fa-wallet"></i> 网关对数结果</button>
                     </div>
                 </div>
-                <!-- 5. 单笔跑批 -->
                 <div class="agent-card" data-agent="单笔跑批">
                     <i class="fas fa-tachometer-alt card-icon"></i>
                     <h3>单笔跑批 · 精准执行</h3>
@@ -408,8 +363,7 @@
                     </div>
                 </div>
             </div>
-            <!-- 大批小助手专用增强卡片 -->
-            <div class="grid-cards" style="margin-top: 0;">
+            <div class="grid-cards" style="margin-top:0;">
                 <div class="agent-card batch-card" data-agent="大批小助手">
                     <i class="fas fa-cloud-upload-alt card-icon" style="color:#5bc0ff;"></i>
                     <h3>🏭 大批小助手 · 全量跑批运维中心</h3>
@@ -434,7 +388,7 @@
                 <div class="chat-messages" id="chatMessages">
                     <div class="message bot">
                         <div class="msg-bubble">
-                            <i class="fas fa-robot"></i> 核心智能体在线<br>
+                            <i class="fas fa-robot"></i> 核心智能体系统在线<br>
                             点击任意智能体指令，模拟真实对话响应。支持核算/接口/清分/支付/跑批全场景。
                         </div>
                         <div class="msg-time">刚刚</div>
@@ -450,22 +404,17 @@
 </div>
 
 <script>
-    // ---------- 酷炫粒子背景 ----------
-    const canvas = document.getElementById('particle-canvas');
-    const ctx = canvas.getContext('2d');
-    let width = window.innerWidth;
-    let height = window.innerHeight;
+    // ---------- 粒子背景 (保持不变) ----------
+    const canvasP = document.getElementById('particle-canvas');
+    const ctxP = canvasP.getContext('2d');
+    let width = window.innerWidth, height = window.innerHeight;
     let particles = [];
-
     function resizeCanvas() {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
+        width = window.innerWidth; height = window.innerHeight;
+        canvasP.width = width; canvasP.height = height;
     }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
-
     class Particle {
         constructor() {
             this.x = Math.random() * width;
@@ -476,47 +425,37 @@
             this.alpha = Math.random() * 0.5 + 0.2;
         }
         update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            if (this.x < 0) this.x = width;
-            if (this.x > width) this.x = 0;
-            if (this.y < 0) this.y = height;
-            if (this.y > height) this.y = 0;
+            this.x += this.speedX; this.y += this.speedY;
+            if (this.x < 0) this.x = width; if (this.x > width) this.x = 0;
+            if (this.y < 0) this.y = height; if (this.y > height) this.y = 0;
         }
         draw() {
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(80, 200, 255, ${this.alpha})`;
-            ctx.fill();
+            ctxP.beginPath();
+            ctxP.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctxP.fillStyle = `rgba(80, 200, 255, ${this.alpha})`;
+            ctxP.fill();
         }
     }
-
     function initParticles() {
         particles = [];
         const count = Math.min(180, width * height / 8000);
-        for (let i = 0; i < count; i++) {
-            particles.push(new Particle());
-        }
+        for (let i = 0; i < count; i++) particles.push(new Particle());
     }
     function animateParticles() {
-        ctx.clearRect(0, 0, width, height);
-        for (let p of particles) {
-            p.update();
-            p.draw();
-        }
-        // 绘制连线效果
+        ctxP.clearRect(0, 0, width, height);
+        for (let p of particles) { p.update(); p.draw(); }
         for (let i = 0; i < particles.length; i++) {
             for (let j = i + 1; j < particles.length; j++) {
                 const dx = particles[i].x - particles[j].x;
                 const dy = particles[i].y - particles[j].y;
                 const dist = Math.sqrt(dx*dx + dy*dy);
                 if (dist < 100) {
-                    ctx.beginPath();
-                    ctx.strokeStyle = `rgba(0, 170, 255, ${0.15 * (1 - dist/100)})`;
-                    ctx.lineWidth = 0.6;
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.stroke();
+                    ctxP.beginPath();
+                    ctxP.strokeStyle = `rgba(0, 170, 255, ${0.15 * (1 - dist/100)})`;
+                    ctxP.lineWidth = 0.6;
+                    ctxP.moveTo(particles[i].x, particles[i].y);
+                    ctxP.lineTo(particles[j].x, particles[j].y);
+                    ctxP.stroke();
                 }
             }
         }
@@ -525,7 +464,51 @@
     initParticles();
     animateParticles();
 
-    // ----- 智能体响应数据 (忠实PDF内容)-----
+    // ----- 模拟二维码绘制 (占位图案) -----
+    (function drawQR() {
+        const canvas = document.getElementById('qrCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const size = 52;
+        // 绘制一个类似二维码的随机黑白块
+        ctx.fillStyle = '#0b1f33';
+        ctx.fillRect(0, 0, size, size);
+        const block = 5;
+        const cols = Math.floor(size / block);
+        const rows = Math.floor(size / block);
+        // 使用固定种子使图案稳定
+        const seed = [1,0,1,1,0,1,0,0,1,1,0,1,0,1,1,0,0,1,0,1,1,0,1,0,0,1,1,0,1,0,1,0,1,1,0,0,1,0,1,1,0,1,0,0,1,1,0,1,0,1,0,1,1,0,0,1,0,1,1,0,1,0,1,0,0,1,1,0,1,0,1,0,1,1,0,1,0,0,1,1,0,1,0,1,0,1,0,1,1,0,0,1,0,1,1,0,1,0,1,0];
+        let idx = 0;
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                const val = seed[idx % seed.length];
+                idx++;
+                ctx.fillStyle = val ? '#2a7bb0' : '#0b1f33';
+                ctx.fillRect(c * block + 1, r * block + 1, block - 1, block - 1);
+            }
+        }
+        // 绘制三个定位角标
+        ctx.fillStyle = '#2a7bb0';
+        const cornerSize = 3;
+        const positions = [[0,0], [cols-3,0], [0, rows-3]];
+        positions.forEach(([cx, cy]) => {
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    ctx.fillRect((cx+i)*block+1, (cy+j)*block+1, block-1, block-1);
+                }
+            }
+        });
+        // 中心标志
+        ctx.fillStyle = '#2a7bb0';
+        const center = Math.floor(cols/2)-1;
+        for (let i = 0; i < 2; i++) {
+            for (let j = 0; j < 2; j++) {
+                ctx.fillRect((center+i)*block+1, (center+j)*block+1, block-1, block-1);
+            }
+        }
+    })();
+
+    // ----- 智能体响应逻辑 (保持不变) -----
     const responseMap = {
         "荷包": {
             userMsg: "@小核通 核算批扣逻辑是什么样的？",
@@ -557,53 +540,31 @@
         }
     };
 
-    // 获取消息容器
     const chatContainer = document.getElementById('chatMessages');
-
-    // 添加消息函数
     function addMessage(userMsgText, botReplyText) {
-        // 用户消息
-        const userDiv = document.createElement('div');
-        userDiv.className = 'message user';
         const now = new Date();
         const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
+        const userDiv = document.createElement('div');
+        userDiv.className = 'message user';
         userDiv.innerHTML = `<div class="msg-bubble"><i class="fas fa-user-astronaut"></i> ${escapeHtml(userMsgText)}</div><div class="msg-time">${timeStr}</div>`;
         chatContainer.appendChild(userDiv);
-        // 机器人回复
         const botDiv = document.createElement('div');
         botDiv.className = 'message bot';
-        // 转换换行符支持
         const formattedReply = escapeHtml(botReplyText).replace(/\n/g, '<br>');
         botDiv.innerHTML = `<div class="msg-bubble"><i class="fas fa-robot"></i> ${formattedReply}</div><div class="msg-time">${timeStr}</div>`;
         chatContainer.appendChild(botDiv);
-        // 滚动到底部
         chatContainer.scrollTop = chatContainer.scrollHeight;
     }
-
     function escapeHtml(str) {
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-            return c;
-        });
+        return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m] || m));
+    }
+    function triggerAgent(key) {
+        const data = responseMap[key];
+        if (data) addMessage(data.userMsg, data.botReply);
+        else addMessage("系统查询", "🤖 未找到对应智能体响应。");
     }
 
-    // 触发智能体对话
-    function triggerAgent(agentKey) {
-        const data = responseMap[agentKey];
-        if (data) {
-            addMessage(data.userMsg, data.botReply);
-        } else {
-            addMessage("系统查询", "🤖 未找到对应智能体响应，请检查指令。");
-        }
-    }
-
-    // 绑定所有 cmd-btn
-    const btns = document.querySelectorAll('.cmd-btn');
-    btns.forEach(btn => {
+    document.querySelectorAll('.cmd-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
             const cmd = btn.getAttribute('data-cmd');
@@ -618,9 +579,7 @@
         });
     });
 
-    // 清空聊天记录
-    const clearBtn = document.getElementById('clearChatBtn');
-    clearBtn.addEventListener('click', () => {
+    document.getElementById('clearChatBtn').addEventListener('click', () => {
         chatContainer.innerHTML = '';
         const welcome = document.createElement('div');
         welcome.className = 'message bot';
@@ -628,19 +587,17 @@
         chatContainer.appendChild(welcome);
     });
 
-    // 可选：点击卡片本身也可以触发主要指令（增加交互直接性）
-    const cards = document.querySelectorAll('.agent-card');
-    cards.forEach(card => {
+    // 点击卡片自动触发主要指令（保持交互）
+    document.querySelectorAll('.agent-card').forEach(card => {
         card.addEventListener('click', (e) => {
-            // 避免点到按钮重复触发
             if (e.target.closest('.cmd-btn')) return;
-            const agentName = card.getAttribute('data-agent');
-            if (agentName === '荷包') triggerAgent('荷包');
-            else if (agentName === '接口查询助手') triggerAgent('接口查询');
-            else if (agentName === '清分测试助手') triggerAgent('清分');
-            else if (agentName === '支付网关助手') triggerAgent('支付网关');
-            else if (agentName === '单笔跑批') triggerAgent('单笔跑批');
-            else if (agentName === '大批小助手') triggerAgent('大批助手');
+            const name = card.getAttribute('data-agent');
+            if (name === '荷包') triggerAgent('荷包');
+            else if (name === '接口查询助手') triggerAgent('接口查询');
+            else if (name === '清分测试助手') triggerAgent('清分');
+            else if (name === '支付网关助手') triggerAgent('支付网关');
+            else if (name === '单笔跑批') triggerAgent('单笔跑批');
+            else if (name === '大批小助手') triggerAgent('大批助手');
         });
     });
 </script>
