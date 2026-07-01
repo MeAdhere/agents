@@ -93,19 +93,23 @@
             padding: 0.2rem 0.8rem 0.2rem 0.5rem;
             border-radius: 2rem;
             border: 1px solid #2a6a8f;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .brand-qr:hover {
+            border-color: #0af;
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.3);
         }
         .qr-placeholder {
             width: 52px;
             height: 52px;
-            background: #0a1a2e;
             border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #3b9bd6;
-            position: relative;
             overflow: hidden;
+            flex-shrink: 0;
+            background: #0a1a2e;
+            border: 1px solid #3b9bd6;
         }
+        .qr-placeholder img,
         .qr-placeholder canvas {
             width: 100%;
             height: 100%;
@@ -127,7 +131,95 @@
             .brand-company { border-left: none; padding-left: 0; }
         }
 
-        /* 其他样式不变 (保留原有酷炫元素) */
+        /* ----- 二维码放大弹窗 (Modal) ----- */
+        .qr-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 5, 15, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+        .qr-modal.show {
+            display: flex;
+        }
+        .qr-modal-content {
+            background: rgba(6, 18, 38, 0.9);
+            padding: 2rem;
+            border-radius: 2rem;
+            border: 1px solid rgba(0, 200, 255, 0.5);
+            box-shadow: 0 0 60px rgba(0, 170, 255, 0.3);
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: scaleUp 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+        }
+        .qr-modal-content .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 18px;
+            font-size: 2rem;
+            color: #7aadff;
+            cursor: pointer;
+            transition: 0.2s;
+            background: none;
+            border: none;
+        }
+        .qr-modal-content .close-modal:hover {
+            color: #fff;
+            transform: rotate(90deg);
+            text-shadow: 0 0 10px #0af;
+        }
+        .qr-modal-content .big-qr {
+            width: 280px;
+            height: 280px;
+            border-radius: 20px;
+            border: 2px solid #2a6a8f;
+            background: #0a1a2e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+        .qr-modal-content .big-qr img,
+        .qr-modal-content .big-qr canvas {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .qr-modal-content .modal-caption {
+            margin-top: 1rem;
+            color: #b0d4ff;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+        .qr-modal-content .modal-caption i {
+            color: #0af;
+            margin-right: 8px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; } to { opacity: 1; }
+        }
+        @keyframes scaleUp {
+            from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; }
+        }
+        @media (max-width: 600px) {
+            .qr-modal-content .big-qr { width: 200px; height: 200px; }
+        }
+
+        /* 其余原有样式保持不变 */
         .hero { text-align: center; margin-bottom: 1.5rem; }
         .glow-text {
             font-size: 3.2rem;
@@ -279,7 +371,7 @@
 <canvas id="particle-canvas"></canvas>
 
 <div class="app-container">
-    <!-- 品牌卡片：嵌入图片内容 (小核通 + 海尔消费金融 + 二维码占位) -->
+    <!-- 品牌卡片（二维码可点击） -->
     <div class="brand-card">
         <div class="brand-left">
             <span class="brand-icon"><i class="fas fa-atom"></i></span>
@@ -292,10 +384,12 @@
                 <small><i class="fas fa-lock"></i> 仅限企业内部成员加入</small>
             </div>
         </div>
-        <div class="brand-qr">
+        <!-- 点击整个二维码区域触发弹窗 -->
+        <div class="brand-qr" id="qrTrigger">
             <div class="qr-placeholder" id="qrPlaceholder">
-                <!-- 使用canvas绘制模拟二维码图案（占位） -->
-                <img src="/qun.png" alt="企业微信二维码" style="width:52px; height:52px; border-radius:12px;">
+                <!-- 这里替换为您自己的二维码图片 -->
+              <img src="/qun.png" alt="企业微信二维码" style="width:52px; height:52px; display:block;"> 
+               
             </div>
             <div class="qr-label">
                 <i class="fas fa-qrcode"></i> 扫码加入<br><span style="font-size:0.5rem; opacity:0.6;">永久有效</span>
@@ -313,7 +407,7 @@
     </div>
 
     <div class="dashboard">
-        <!-- 左侧智能体军团 (不变) -->
+        <!-- 左侧智能体军团 -->
         <div class="agents-panel">
             <div class="grid-cards">
                 <div class="agent-card" data-agent="荷包">
@@ -403,8 +497,19 @@
     <footer>⚡ 小核通子智能体 + 大批小助手 | 核算知识库 | 接口查询 | 清分对账 | 支付网关 | 精准跑批</footer>
 </div>
 
+<!-- 二维码放大弹窗 -->
+<div class="qr-modal" id="qrModal">
+    <div class="qr-modal-content">
+        <button class="close-modal" id="closeModalBtn">&times;</button>
+        <div class="big-qr" id="bigQrContainer">
+            <!-- 放大后的图片会动态放入这里 -->
+        </div>
+        <div class="modal-caption"><i class="fas fa-qrcode"></i> 扫码加入 · 永久有效</div>
+    </div>
+</div>
+
 <script>
-    // ---------- 粒子背景 (保持不变) ----------
+    // ---------- 粒子背景 ----------
     const canvasP = document.getElementById('particle-canvas');
     const ctxP = canvasP.getContext('2d');
     let width = window.innerWidth, height = window.innerHeight;
@@ -464,19 +569,17 @@
     initParticles();
     animateParticles();
 
-    // ----- 模拟二维码绘制 (占位图案) -----
+    // ----- 模拟二维码绘制 (占位) -----
     (function drawQR() {
         const canvas = document.getElementById('qrCanvas');
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
         const size = 52;
-        // 绘制一个类似二维码的随机黑白块
         ctx.fillStyle = '#0b1f33';
         ctx.fillRect(0, 0, size, size);
         const block = 5;
         const cols = Math.floor(size / block);
         const rows = Math.floor(size / block);
-        // 使用固定种子使图案稳定
         const seed = [1,0,1,1,0,1,0,0,1,1,0,1,0,1,1,0,0,1,0,1,1,0,1,0,0,1,1,0,1,0,1,0,1,1,0,0,1,0,1,1,0,1,0,0,1,1,0,1,0,1,0,1,1,0,0,1,0,1,1,0,1,0,1,0,0,1,1,0,1,0,1,0,1,1,0,1,0,0,1,1,0,1,0,1,0,1,0,1,1,0,0,1,0,1,1,0,1,0,1,0];
         let idx = 0;
         for (let r = 0; r < rows; r++) {
@@ -487,8 +590,6 @@
                 ctx.fillRect(c * block + 1, r * block + 1, block - 1, block - 1);
             }
         }
-        // 绘制三个定位角标
-        ctx.fillStyle = '#2a7bb0';
         const cornerSize = 3;
         const positions = [[0,0], [cols-3,0], [0, rows-3]];
         positions.forEach(([cx, cy]) => {
@@ -498,8 +599,6 @@
                 }
             }
         });
-        // 中心标志
-        ctx.fillStyle = '#2a7bb0';
         const center = Math.floor(cols/2)-1;
         for (let i = 0; i < 2; i++) {
             for (let j = 0; j < 2; j++) {
@@ -507,6 +606,71 @@
             }
         }
     })();
+
+    // ----- 点击二维码弹出放大弹窗 (智能适配 img 或 canvas) -----
+    const qrTrigger = document.getElementById('qrTrigger');
+    const qrModal = document.getElementById('qrModal');
+    const bigQrContainer = document.getElementById('bigQrContainer');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
+    function openQrModal() {
+        // 清空容器
+        bigQrContainer.innerHTML = '';
+        
+        // 尝试获取二维码图片源
+        const placeholder = document.getElementById('qrPlaceholder');
+        const imgElement = placeholder.querySelector('img');
+        let src = null;
+
+        if (imgElement) {
+            // 如果用户替换成了 <img>，直接使用其 src
+            src = imgElement.src;
+            const bigImg = document.createElement('img');
+            bigImg.src = src;
+            bigImg.alt = '二维码';
+            bigQrContainer.appendChild(bigImg);
+        } else {
+            // 否则使用 Canvas 导出图片 (保持模拟图也可放大)
+            const canvas = placeholder.querySelector('canvas');
+            if (canvas) {
+                const dataUrl = canvas.toDataURL('image/png');
+                const bigImg = document.createElement('img');
+                bigImg.src = dataUrl;
+                bigImg.alt = '二维码';
+                bigQrContainer.appendChild(bigImg);
+            } else {
+                bigQrContainer.innerHTML = '<span style="color:#7aadff;">未找到二维码</span>';
+            }
+        }
+        
+        qrModal.classList.add('show');
+        document.body.style.overflow = 'hidden'; // 禁止背景滚动
+    }
+
+    function closeQrModal() {
+        qrModal.classList.remove('show');
+        document.body.style.overflow = 'auto';
+    }
+
+    // 点击二维码区域触发弹窗
+    qrTrigger.addEventListener('click', openQrModal);
+    
+    // 点击关闭按钮
+    closeModalBtn.addEventListener('click', closeQrModal);
+    
+    // 点击弹窗背景（非内容区）关闭
+    qrModal.addEventListener('click', function(e) {
+        if (e.target === qrModal) {
+            closeQrModal();
+        }
+    });
+
+    // ESC 键关闭
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeQrModal();
+        }
+    });
 
     // ----- 智能体响应逻辑 (保持不变) -----
     const responseMap = {
@@ -587,7 +751,6 @@
         chatContainer.appendChild(welcome);
     });
 
-    // 点击卡片自动触发主要指令（保持交互）
     document.querySelectorAll('.agent-card').forEach(card => {
         card.addEventListener('click', (e) => {
             if (e.target.closest('.cmd-btn')) return;
